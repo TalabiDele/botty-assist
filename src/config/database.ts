@@ -1,7 +1,10 @@
 import mongoose from 'mongoose'
 import { Logger } from '../utils/logger'
+import dotenv from 'dotenv'
 
 const logger = new Logger('Database')
+
+dotenv.config()
 
 export const connectDB = async () => {
 	try {
