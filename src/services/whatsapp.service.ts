@@ -52,7 +52,7 @@ export class WhatsAppService {
 
 		this.client.on('message_create', async (message: Message) => {
 			try {
-				this.logger.debug(`📩 Message received: ${message.body}`)
+				// this.logger.debug(`📩 Message received: ${message.body}`)
 				// Delegate message handling to MessageHandler
 				await this.messageHandler.handle(message)
 			} catch (error) {
