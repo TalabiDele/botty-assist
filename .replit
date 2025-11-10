@@ -8,24 +8,3 @@ packages = ["chromium", "glib", "nss", "nspr", "atk", "cups", "libdrm", "xorg.li
 expertMode = true
 
 [workflows]
-runButton = "Project"
-
-[[workflows.workflow]]
-name = "Project"
-mode = "parallel"
-author = "agent"
-
-[[workflows.workflow.tasks]]
-task = "workflow.run"
-args = "whatsapp-bot"
-
-[[workflows.workflow]]
-name = "whatsapp-bot"
-author = "agent"
-
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "npm run dev"
-
-[workflows.workflow.metadata]
-outputType = "console"
