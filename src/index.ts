@@ -14,6 +14,7 @@ import {
 } from './commands/broadcast.command'
 import { Logger } from './utils/logger'
 import { RecurringCommand } from './commands/recurrinng.command'
+import { connectDB } from './config/database'
 
 class Application {
 	private logger: Logger
@@ -64,6 +65,7 @@ class Application {
 
 	async start(): Promise<void> {
 		this.logger.info('Starting WhatsApp Assistant Bot...')
+		await connectDB()
 		await this.whatsappService.initialize()
 		this.setupGracefulShutdown()
 	}

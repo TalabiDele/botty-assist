@@ -1,4 +1,4 @@
-import { Client, LocalAuth, Message, Chat } from 'whatsapp-web.js'
+import { Client, Message, Chat } from 'whatsapp-web.js'
 import * as qrcode from 'qrcode-terminal'
 import { Logger } from '../utils/logger'
 import { WhatsAppConfig } from '../config/whatsapp.config'
@@ -6,6 +6,7 @@ import { Environment } from '../config/environment'
 import { ChatInfo } from '../types/reminder.types'
 import { MessageHandler } from '../handlers/message.handler'
 import { ReminderService } from './reminder.service'
+import { ReminderModel } from '../models/reminder'
 
 export class WhatsAppService {
 	private client: Client
@@ -38,6 +39,7 @@ export class WhatsAppService {
 
 		this.client.on('ready', () => {
 			this.logger.info('WhatsApp client is ready! 🤖')
+			this.checkPendingReminders()
 		})
 
 		this.client.on('auth_failure', (message: string) => {
@@ -61,6 +63,24 @@ export class WhatsAppService {
 
 	onMessage(handler: (message: Message) => Promise<void>): void {
 		this.client.on('message', handler)
+	}
+
+	private async checkPendingReminders(): Promise<void> {
+		const now = new Date()
+		const reminders = await ReminderModel.find({ time: { $gte: now } })
+
+		for (const reminder of reminders) {
+			const delay = reminder.time.getTime() - now.getTime()
+			if (delay > 0) {
+				setTimeout(async () => {
+					await this.sendMessage(
+						reminder.groupId,
+						`🔔 Reminder: ${reminder.text}`
+					)
+					await ReminderModel.deleteOne({ _id: reminder._id })
+				}, delay)
+			}
+		}
 	}
 
 	async sendMessage(chatId: string, message: string): Promise<void> {
