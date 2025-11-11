@@ -44,12 +44,12 @@ export class MessageHandler {
 
 	async handle(message: Message): Promise<void> {
 		try {
-			const sender = message.from.replace('@c.us', '') // "2348012345678"
+			// const sender = message.from.replace('@c.us', '') // "2348012345678"
 
 			// ✅ Allow messages from owner — even if message.fromMe === true
 			if (Environment.ONLY_RESPOND_TO_OWNER) {
 				if (!message.fromMe) {
-					this.logger.debug(`Ignoring message from non-owner: ${sender}`)
+					// this.logger.debug(`Ignoring message from non-owner: ${sender}`)
 					return
 				}
 			}

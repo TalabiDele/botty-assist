@@ -76,9 +76,9 @@ export class ReminderService {
 
 		const job = this.scheduler.scheduleRecurring(cronRule, onTrigger)
 		this.reminderRepo.setJob(reminder.id, job)
-		this.logger.info(
-			`Recurring reminder created: ID ${reminder.id}${targetChats ? ` targeting ${targetChats.length} chats` : ''}`
-		)
+		// this.logger.info(
+		// 	`Recurring reminder created: ID ${reminder.id}${targetChats ? ` targeting ${targetChats.length} chats` : ''}`
+		// )
 		return reminder
 	}
 

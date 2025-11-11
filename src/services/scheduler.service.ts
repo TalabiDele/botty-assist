@@ -9,7 +9,7 @@ export class SchedulerService {
 	}
 
 	scheduleOneTime(date: Date, callback: () => Promise<void>): any {
-		this.logger.debug(`Scheduling one-time job for ${date.toISOString()}`)
+		// this.logger.debug(`Scheduling one-time job for ${date.toISOString()}`)
 		return schedule.scheduleJob(date, callback)
 	}
 
